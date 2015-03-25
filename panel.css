@@ -55,6 +55,10 @@ body, html {
   background: #990000;
 }
 
+.menu .btn.btn-success {
+  background: #009900;
+}
+
 .menu .back {
   color: #c5cae9;
   display: inline-block;

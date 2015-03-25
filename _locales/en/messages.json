@@ -1,6 +1,7 @@
 {
   "cleanup": { "message": "Cleanup" },
-  "save": { "message": "Save Changes" },
+  "save": { "message": "Save" },
+  "save_and_refresh": { "message": "Save & Refresh" },
   "unmock": { "message": "Unmock" },
   "enable": { "message": "Enable Mocking" },
   "disable": { "message": "Disable Mocking" },

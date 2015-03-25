@@ -91,7 +91,8 @@
         <div class="pull-right">
           <button ng-click="unmock(selectedRequest)" class="btn btn-danger" ng-if="selectedRequest.mocked">{{ 'unmock' | i18n }}</button>
           <button ng-click="beautifySelected()" class="btn" ng-if="is_beautifiable()">{{ 'cleanup' | i18n }} {{ selectedRequest.mode | i18n }}</button>
-          <button ng-click="saveSelectedRequest()" class="btn">{{ 'save' | i18n }}</button>
+          <button ng-click="saveSelectedRequest()" class="btn btn-success">{{ 'save' | i18n }}</button>
+          <button ng-click="saveSelectedRequest();refreshPage()" class="btn btn-success">{{ 'save_and_refresh' | i18n }}</button>
         </div>
 
         <div class="selected-request-url">
