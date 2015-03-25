@@ -17,9 +17,22 @@
     You may need to reload the page for your requests to appear here.
   </div>
 
-  <div ng-if="!selectedRequest" ng-repeat="request in requests" class="table">
-    <div class="mocked-request" ng-click="selectRequest(request)" ng-class="{mocked:request.mocked}">
-      {{ request.request.url }}
+  <div ng-if="!selectedRequest && requests.length" class="content">
+    <div class="menu">
+      <div class="pull-right">
+      </div>
+
+      <div class="selected-request-url">
+        genius-switch!
+      </div>
+    </div>
+
+    <div class="editor">
+      <div ng-if="!selectedRequest" ng-repeat="request in requests" class="content">
+        <div class="mocked-request" ng-click="selectRequest(request)" ng-class="{mocked:request.mocked}">
+          {{ request.request.url }}
+        </div>
+      </div>
     </div>
   </div>
 
