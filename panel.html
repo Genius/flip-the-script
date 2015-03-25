@@ -25,11 +25,13 @@
       </div>
 
       <div class="disclaimer editor">
-        Mocking is currently disabled.
+        <strong>Mocking is currently disabled.</strong>
         <br/><br/>
 
-        <span ng-if="!just_opened">You will need to refresh to reload the original assets.</span>
-        <br/><br/>
+        <div ng-if="!just_opened">
+          You will need to <a href="#" ng-click="refreshPage()">refresh the page</a> to reload the original assets.
+          <br/><br/>
+        </div>
 
         <a href="#" ng-click="toggleDisabled(false)">Turn it back on!</a>
       </div>
@@ -51,7 +53,7 @@
       </div>
 
       <div class="disclaimer editor">
-        Please reload the page for your requests to appear here.
+        Please <a href="#" ng-click="refreshPage()">refresh the page</a> for your requests to appear here.
       </div>
     </div>
 

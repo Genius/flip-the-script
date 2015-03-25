@@ -32,6 +32,10 @@ angular.module('switch').controller('PanelCtrl', ['$scope', function ($scope) {
     }
   });
 
+  $scope.refreshPage = function () {
+    chrome.devtools.inspectedWindow.reload();
+  };
+
   $scope.setSearchTerm = function (term) {
     $scope.searchTerm = term;
   };
