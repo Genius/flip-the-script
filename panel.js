@@ -24,6 +24,42 @@ angular.module('switch').controller('PanelCtrl', ['$scope', function ($scope) {
     'text/css': 'css'
   };
 
+  $scope.unmock = function (request) {
+    request.mocked = false;
+    delete request.body;
+
+    if (request.mockedRequest) {
+      request.body = '/* Refresh the page for the original blocked response. */';
+    }
+
+    background_connection.postMessage({
+      method: 'release',
+      url: request.request.url
+    });
+  };
+
+  $scope.mockedCount = function () {
+    var count = 0;
+    for (var mode in $scope.requests) {
+      for (var i = 0; i < $scope.requests[mode].length; i++) {
+        if ($scope.requests[mode][i].mocked) {
+          count += 1;
+        }
+      }
+    }
+    return count;
+  };
+
+  $scope.unmockAll = function () {
+    for (var mode in $scope.requests) {
+      for (var i = 0; i < $scope.requests[mode].length; i++) {
+        if ($scope.requests[mode][i].mocked) {
+          $scope.unmock($scope.requests[mode][i]);
+        }
+      }
+    }
+  };
+
   $scope.addRequest = function (request) {
     $scope.just_opened = false;
     var underlying_request = request.mockedRequest || request;
@@ -50,21 +86,6 @@ angular.module('switch').controller('PanelCtrl', ['$scope', function ($scope) {
         $scope.$apply();
       });
     }
-  };
-
-  $scope.unmockSelected = function () {
-    $scope.selectedRequest.mocked = false;
-    delete $scope.selectedRequest.body;
-
-    if ($scope.selectedRequest.mockedRequest) {
-      $scope.selectedRequest.body = '/* Refresh the page for the original blocked response. */';
-    }
-
-    background_connection.postMessage({
-      method: 'release',
-      url: $scope.selectedRequest.request.url
-    });
-    $scope.cancelSaving();
   };
 
   $scope.is_beautifiable = function () {
