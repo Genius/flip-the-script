@@ -1,8 +1,6 @@
 body, html {
   padding: 0;
   margin: 0;
-  max-width: 100%;
-  overflow-x: hidden;
 }
 
 .CodeMirror {
@@ -80,7 +78,8 @@ body, html {
   border-bottom: 1px solid #777;
   color: #555;
   white-space: nowrap;
-  overflow: ellipsis;
+  overflow: hidden;
+  text-overflow: ellipsis;
   cursor: default;
 }
 
