@@ -60,7 +60,7 @@
     <div ng-if="!selectedRequest && !just_opened" class="content">
       <div class="menu">
         <div class="pull-right">
-          <button ng-click="disableAllOverrides()" class="btn btn-danger" ng-if="overriddenCount()">{{ 'disable_override' | i18n }} {{ overriddenCount() }}</button>
+          <button ng-click="disableAllOverrides()" class="btn btn-danger" ng-if="overriddenCount()">{{ 'disable_overrides' | i18n }} ({{ overriddenCount() }})</button>
           <button ng-click="toggleDisabled(true)" class="btn btn-danger" ng-if="!disabled">{{ 'disable' | i18n }}</button>
         </div>
 
