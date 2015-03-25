@@ -1,0 +1,8 @@
+{
+  "name": "switch",
+  "dependencies": {
+    "angular-ui-codemirror": "*",
+    "bootstrap": "*",
+    "js-beautify": "*"
+  }
+}

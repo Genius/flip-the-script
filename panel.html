@@ -1,0 +1,37 @@
+<link rel="stylesheet" type="text/css" href="bower_components/codemirror/lib/codemirror.css">
+<link rel="stylesheet" type="text/css" href="panel.css"/>
+<script type="text/javascript" src="bower_components/js-beautify/js/lib/beautify.js"></script>
+<script type="text/javascript" src="bower_components/js-beautify/js/lib/beautify-css.js"></script>
+<script type="text/javascript" src="bower_components/codemirror/lib/codemirror.js"></script>
+<script type="text/javascript" src="bower_components/angular/angular.js"></script>
+<script type="text/javascript" src="bower_components/angular-ui-codemirror/ui-codemirror.js"></script>
+<script type="text/javascript" src="bower_components/codemirror/mode/javascript/javascript.js"></script>
+<script type="text/javascript" src="bower_components/codemirror/mode/css/css.js"></script>
+<script src="panel.js"></script>
+
+<div ng-app="switch" ng-controller="PanelCtrl">
+
+  <table ng-if="!selectedResource" ng-repeat="resource in resources" class="table">
+    <tr>
+      <td>
+        <a ng-click="selectResource(resource)" ng-class="{mocked:resource.mocked}">
+          {{ resource.request.url }}
+        </a>
+      </td>
+    </tr>
+  </table>
+
+  <div ng-if="selectedResource" class="content">
+    <div class="menu">
+      <div class="pull-right">
+        <button ng-click="beautifySelected()" class="btn" ng-if="is_beautifiable()">Clean</button>
+        <button ng-click="saveSelectedResource()" class="btn">Save Changes</button>
+        <button ng-click="unmockSelected()" class="btn" ng-if="selectedResource.mocked">Unmock</button>
+      </div>
+      <a ng-click="cancelSaving()" class="back">&lt;</a>
+      {{ selectedResource.request.url }}
+    </div>
+    <ui-codemirror ng-model="editor.body" ui-codemirror-opts="editorOptions()" class="editor"></ui-codemirror>
+  </div>
+
+</div>
