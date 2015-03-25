@@ -2,6 +2,7 @@
   "cleanup": { "message": "Cleanup" },
   "save": { "message": "Save" },
   "save_and_refresh": { "message": "Save & Refresh" },
+  "disable_override": { "message": "Disable Override" },
   "disable_overrides": { "message": "Disable Overrides" },
   "enable": { "message": "Enable" },
   "disable": { "message": "Disable" },

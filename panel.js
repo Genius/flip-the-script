@@ -1,4 +1,4 @@
-/* global tool,js_beautify,css_beautify */
+/* global js_beautify,css_beautify */
 
 var background_connection = chrome.extension.connect({
   name: 'panel'
@@ -6,15 +6,15 @@ var background_connection = chrome.extension.connect({
 
 angular.module('switch', ['ui.codemirror']);
 
-angular.module('switch').filter('i18n', function () {
+angular.module('switch').filter('i18n', function() {
 
-  return function (input) {
+  return function(input) {
     return chrome.i18n.getMessage(input);
   };
 
 });
 
-angular.module('switch').controller('PanelCtrl', ['$scope', function ($scope) {
+angular.module('switch').controller('PanelCtrl', ['$scope', function($scope) {
 
   var mode_map = {
     'application/x-javascript': 'javascript',
@@ -25,34 +25,34 @@ angular.module('switch').controller('PanelCtrl', ['$scope', function ($scope) {
   };
 
   $scope.disabled = false;
-  background_connection.onMessage.addListener(function (message) {
-    if (message.method === 'updateSettings') {
+  background_connection.onMessage.addListener(function(message) {
+    if (message.method === 'update_settings') {
       $scope.disabled = message.value.disabled;
       $scope.$apply();
     }
   });
 
-  $scope.refreshPage = function () {
+  $scope.refresh_page = function() {
     chrome.devtools.inspectedWindow.reload();
   };
 
-  $scope.setSearchTerm = function (term) {
-    $scope.searchTerm = term;
+  $scope.set_search_term = function(term) {
+    $scope.search_term = term;
   };
 
-  $scope.toggleDisabled = function (value) {
+  $scope.toggle_disabled = function(value) {
     $scope.disabled = value;
     background_connection.postMessage({
-      method: 'setDisabled',
+      method: 'set_disabled',
       value: value
     });
   };
 
-  $scope.disable_override = function (request) {
+  $scope.disable_override = function(request) {
     request.overridden = false;
     delete request.body;
 
-    if (request.overriddenRequest) {
+    if (request.overridden_request) {
       request.body = '/* Refresh the page for the original blocked response. */';
     }
 
@@ -62,7 +62,7 @@ angular.module('switch').controller('PanelCtrl', ['$scope', function ($scope) {
     });
   };
 
-  $scope.overriddenCount = function () {
+  $scope.overriden_count = function() {
     var count = 0;
     for (var mode in $scope.requests) {
       for (var i = 0; i < $scope.requests[mode].length; i++) {
@@ -74,7 +74,7 @@ angular.module('switch').controller('PanelCtrl', ['$scope', function ($scope) {
     return count;
   };
 
-  $scope.disableAllOverrides = function () {
+  $scope.disable_all_overrides = function() {
     for (var mode in $scope.requests) {
       for (var i = 0; i < $scope.requests[mode].length; i++) {
         if ($scope.requests[mode][i].overridden) {
@@ -84,9 +84,9 @@ angular.module('switch').controller('PanelCtrl', ['$scope', function ($scope) {
     }
   };
 
-  $scope.addRequest = function (request) {
+  $scope.add_request = function(request) {
     if ($scope.disabled) { return; }
-    var underlying_request = request.overriddenRequest || request;
+    var underlying_request = request.overridden_request || request;
     request.mode = mode_map[underlying_request.response.content.mimeType];
     request.mime = underlying_request.response.content.mimeType;
     if (request.mode) {
@@ -96,60 +96,60 @@ angular.module('switch').controller('PanelCtrl', ['$scope', function ($scope) {
     }
   };
 
-  $scope.resetRequests = function () {
-    $scope.cancelSaving();
+  $scope.reset_requests = function() {
+    $scope.cancel_saving();
     $scope.requests = {};
     if ($scope.disabled) {
       $scope.just_opened = true;
     }
   };
 
-  $scope.selectRequest = function (request) {
-    $scope.selectedRequest = request;
-    if ($scope.selectedRequest.body) {
-      $scope.editor.body = $scope.selectedRequest.body;
+  $scope.select_request = function(request) {
+    $scope.selected_request = request;
+    if ($scope.selected_request.body) {
+      $scope.editor.body = $scope.selected_request.body;
     } else {
-      (request.overriddenRequest || request).getContent(function (content) {
+      (request.overridden_request || request).getContent(function(content) {
         $scope.editor.body = content;
         $scope.$apply();
       });
     }
   };
 
-  $scope.is_beautifiable = function () {
-    return ['css', 'javascript'].indexOf($scope.selectedRequest.mode) !== -1;
+  $scope.is_beautifiable = function() {
+    return ['css', 'javascript'].indexOf($scope.selected_request.mode) !== -1;
   };
 
-  $scope.beautifySelected = function () {
+  $scope.beautify_selected = function() {
     var editor = $scope.editor;
-    switch($scope.selectedRequest.mode) {
+    switch($scope.selected_request.mode) {
       case 'javascript': editor.body = js_beautify(editor.body); break;
       case 'css':        editor.body = css_beautify(editor.body); break;
     }
   };
 
-  $scope.cancelSaving = function () {
+  $scope.cancel_saving = function() {
     $scope.editor = {};
-    $scope.selectedRequest = undefined;
+    $scope.selected_request = undefined;
   };
 
-  $scope.saveSelectedRequest = function () {
-    $scope.selectedRequest.overridden = true;
-    $scope.selectedRequest.body = $scope.editor.body;
+  $scope.save_selected_request = function() {
+    $scope.selected_request.overridden = true;
+    $scope.selected_request.body = $scope.editor.body;
     background_connection.postMessage({
       method: 'register',
-      url: $scope.selectedRequest.request.url,
+      url: $scope.selected_request.request.url,
       detail: {
         code: $scope.editor.body,
-        mime: $scope.selectedRequest.mime
+        mime: $scope.selected_request.mime
       }
     });
-    $scope.cancelSaving();
+    $scope.cancel_saving();
   };
 
-  $scope.editorOptions = function () {
+  $scope.editor_options = function() {
     return {
-      mode: $scope.selectedRequest ? $scope.selectedRequest.mode : undefined,
+      mode: $scope.selected_request ? $scope.selected_request.mode : undefined,
       lineNumbers: true,
       styleActiveLine: true
     };
@@ -157,14 +157,14 @@ angular.module('switch').controller('PanelCtrl', ['$scope', function ($scope) {
 
   $scope.just_opened = true;
   $scope.editor = {};
-  $scope.resetRequests();
+  $scope.reset_requests();
 
   // export a few methods in a convenient way
   window.external = {};
-  ['addRequest', 'resetRequests', 'setSearchTerm'].forEach(function (name) {
-    window.external[name] = function () {
+  ['add_request', 'reset_requests', 'set_search_term'].forEach(function(name) {
+    window.external[name] = function() {
       var args = Array.prototype.slice.call(arguments);
-      $scope.$apply(function () {
+      $scope.$apply(function() {
         $scope[name].apply($scope, args);
       });
     };

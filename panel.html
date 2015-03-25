@@ -16,7 +16,7 @@
     <div class="content">
       <div class="menu">
         <div class="pull-right">
-          <button ng-click="toggleDisabled(false)" class="btn" ng-if="disabled">{{ 'enable' | i18n }}</button>
+          <button ng-click="toggle_disabled(false)" class="btn" ng-if="disabled">{{ 'enable' | i18n }}</button>
         </div>
 
         <div class="selected-request-url">
@@ -29,11 +29,11 @@
         <br/><br/>
 
         <div ng-if="!just_opened">
-          You will need to <a href="#" ng-click="refreshPage()">refresh the page</a> to reload the original assets.
+          You will need to <a href="#" ng-click="refresh_page()">refresh the page</a> to reload the original assets.
           <br/><br/>
         </div>
 
-        <a href="#" ng-click="toggleDisabled(false)">Turn it back on!</a>
+        <a href="#" ng-click="toggle_disabled(false)">Turn it back on!</a>
       </div>
     </div>
 
@@ -41,10 +41,10 @@
 
   <div ng-if="!disabled">
 
-    <div ng-if="!selectedRequest && just_opened" class="content">
+    <div ng-if="!selected_request && just_opened" class="content">
       <div class="menu">
         <div class="pull-right">
-          <button ng-click="toggleDisabled(true)" class="btn btn-danger" ng-if="!disabled">{{ 'disable' | i18n }}</button>
+          <button ng-click="toggle_disabled(true)" class="btn btn-danger" ng-if="!disabled">{{ 'disable' | i18n }}</button>
         </div>
 
         <div class="selected-request-url">
@@ -53,15 +53,15 @@
       </div>
 
       <div class="disclaimer editor">
-        Please <a href="#" ng-click="refreshPage()">refresh the page</a> for your requests to appear here.
+        Please <a href="#" ng-click="refresh_page()">refresh the page</a> for your requests to appear here.
       </div>
     </div>
 
-    <div ng-if="!selectedRequest && !just_opened" class="content">
+    <div ng-if="!selected_request && !just_opened" class="content">
       <div class="menu">
         <div class="pull-right">
-          <button ng-click="disableAllOverrides()" class="btn btn-danger" ng-if="overriddenCount()">{{ 'disable_overrides' | i18n }} ({{ overriddenCount() }})</button>
-          <button ng-click="toggleDisabled(true)" class="btn btn-danger" ng-if="!disabled">{{ 'disable' | i18n }}</button>
+          <button ng-click="disable_all_overrides()" class="btn btn-danger" ng-if="overriden_count()">{{ 'disable_overrides' | i18n }} ({{ overriden_count() }})</button>
+          <button ng-click="toggle_disabled(true)" class="btn btn-danger" ng-if="!disabled">{{ 'disable' | i18n }}</button>
         </div>
 
         <div class="selected-request-url">
@@ -70,14 +70,14 @@
       </div>
 
       <div class="editor">
-        <div ng-if="!selectedRequest" ng-repeat="(mode, mode_requests) in requests" class="content">
+        <div ng-if="!selected_request" ng-repeat="(mode, mode_requests) in requests" class="content">
           <div class="overridden-request-header">{{ mode | i18n }}</div>
-          <div ng-repeat="request in mode_requests | filter:{request:{url:searchTerm}}">
-            <div class="overridden-request" ng-click="selectRequest(request)" ng-class="{overridden:request.overridden}">
+          <div ng-repeat="request in mode_requests | filter:{request:{url:search_term}}">
+            <div class="overridden-request" ng-click="select_request(request)" ng-class="{overridden:request.overridden}">
               {{ request.request.url }}
             </div>
           </div>
-          <div ng-if="!(mode_requests | filter:{request:{url: searchTerm}}).length">
+          <div ng-if="!(mode_requests | filter:{request:{url: search_term}}).length">
             <div class="overridden-request">
               <em>No {{ mode | i18n }} Results.</em>
             </div>
@@ -86,21 +86,21 @@
       </div>
     </div>
 
-    <div ng-if="selectedRequest" class="content">
+    <div ng-if="selected_request" class="content">
       <div class="menu">
         <div class="pull-right">
-          <button ng-click="disable_override(selectedRequest)" class="btn btn-danger" ng-if="selectedRequest.overridden">{{ 'disable_override' | i18n }}</button>
-          <button ng-click="beautifySelected()" class="btn" ng-if="is_beautifiable()">{{ 'cleanup' | i18n }} {{ selectedRequest.mode | i18n }}</button>
-          <button ng-click="saveSelectedRequest()" class="btn btn-success">{{ 'save' | i18n }}</button>
-          <button ng-click="saveSelectedRequest();refreshPage()" class="btn btn-success">{{ 'save_and_refresh' | i18n }}</button>
+          <button ng-click="disable_override(selected_request);cancel_saving()" class="btn btn-danger" ng-if="selected_request.overridden">{{ 'disable_override' | i18n }}</button>
+          <button ng-click="beautify_selected()" class="btn" ng-if="is_beautifiable()">{{ 'cleanup' | i18n }} {{ selected_request.mode | i18n }}</button>
+          <button ng-click="save_selected_request()" class="btn btn-success">{{ 'save' | i18n }}</button>
+          <button ng-click="save_selected_request();refresh_page()" class="btn btn-success">{{ 'save_and_refresh' | i18n }}</button>
         </div>
 
         <div class="selected-request-url">
-          <a ng-click="cancelSaving()" class="back">X</a>
-          {{ selectedRequest.request.url }}
+          <a ng-click="cancel_saving()" class="back">X</a>
+          {{ selected_request.request.url }}
         </div>
       </div>
-      <ui-codemirror ng-model="editor.body" ui-codemirror-opts="editorOptions()" class="editor"></ui-codemirror>
+      <ui-codemirror ng-model="editor.body" ui-codemirror-opts="editor_options()" class="editor"></ui-codemirror>
     </div>
 
   </div>
