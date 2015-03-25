@@ -26,7 +26,8 @@ body, html {
 
 .content .menu {
   font-family: Helvetica, sans-serif;
-  position: absolute;
+  position: fixed;
+  z-index: 999;
   top: 0;
   left: 0;
   right: 0;
