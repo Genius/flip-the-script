@@ -24,21 +24,20 @@ angular.module('switch').controller('PanelCtrl', ['$scope', function ($scope) {
     'text/css': 'css'
   };
 
-  $scope.editor = {};
-  $scope.requests = [];
-
   $scope.addRequest = function (request) {
+    $scope.just_opened = false;
     var underlying_request = request.mockedRequest || request;
     request.mode = mode_map[underlying_request.response.content.mimeType];
     request.mime = underlying_request.response.content.mimeType;
     if (request.mode) {
-      $scope.requests.push(request);
+      $scope.requests[request.mode] = $scope.requests[request.mode] || [];
+      $scope.requests[request.mode].push(request);
     }
   };
 
   $scope.resetRequests = function () {
     $scope.cancelSaving();
-    $scope.requests = [];
+    $scope.requests = {};
   };
 
   $scope.selectRequest = function (request) {
@@ -107,6 +106,8 @@ angular.module('switch').controller('PanelCtrl', ['$scope', function ($scope) {
     };
   };
 
+  $scope.just_opened = true;
+  $scope.editor = {};
   $scope.resetRequests();
 
   // export a few methods in a convenient way

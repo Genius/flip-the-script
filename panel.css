@@ -74,12 +74,18 @@ body, html {
 .mocked { color: blue; }
 
 .mocked-request {
-  padding: 5px 10px;
+  padding: 5px 20px;
   border-bottom: 1px solid #777;
   color: #555;
   white-space: nowrap;
   overflow: ellipsis;
   cursor: default;
+}
+
+.mocked-request-header {
+  padding: 10px 20px;
+  color: #fff;
+  background: #03a9f4;
 }
 
 .mocked-request.mocked {

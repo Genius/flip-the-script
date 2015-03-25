@@ -11,13 +11,13 @@
 
 <div ng-app="switch" ng-controller="PanelCtrl">
 
-  <div ng-if="!selectedRequest && !requests.length" class="disclaimer">
+  <div ng-if="!selectedRequest && just_opened" class="disclaimer">
     <h1>Welcome to genius-switch</h1>
 
     You may need to reload the page for your requests to appear here.
   </div>
 
-  <div ng-if="!selectedRequest && requests.length" class="content">
+  <div ng-if="!selectedRequest && !just_opened" class="content">
     <div class="menu">
       <div class="pull-right">
       </div>
@@ -28,9 +28,12 @@
     </div>
 
     <div class="editor">
-      <div ng-if="!selectedRequest" ng-repeat="request in requests" class="content">
-        <div class="mocked-request" ng-click="selectRequest(request)" ng-class="{mocked:request.mocked}">
-          {{ request.request.url }}
+      <div ng-if="!selectedRequest" ng-repeat="(mode, mode_requests) in requests" class="content">
+        <div class="mocked-request-header">{{ mode | i18n }}</div>
+        <div ng-repeat="request in mode_requests">
+          <div class="mocked-request" ng-click="selectRequest(request)" ng-class="{mocked:request.mocked}">
+            {{ request.request.url }}
+          </div>
         </div>
       </div>
     </div>
@@ -40,7 +43,7 @@
     <div class="menu">
       <div class="pull-right">
         <button ng-click="unmockSelected()" class="btn btn-danger" ng-if="selectedRequest.mocked">{{ 'unmock' | i18n }}</button>
-        <button ng-click="beautifySelected()" class="btn" ng-if="is_beautifiable()">{{ ('cleanup_' + selectedRequest.mode) | i18n }}</button>
+        <button ng-click="beautifySelected()" class="btn" ng-if="is_beautifiable()">{{ 'cleanup' | i18n }} {{ selectedRequest.mode | i18n }}</button>
         <button ng-click="saveSelectedRequest()" class="btn">{{ 'save' | i18n }}</button>
       </div>
 

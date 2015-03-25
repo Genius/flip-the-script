@@ -1,6 +1,8 @@
 {
-  "cleanup_css": { "message": "Cleanup CSS" },
-  "cleanup_javascript": { "message": "Cleanup JS" },
+  "cleanup": { "message": "Cleanup" },
   "save": { "message": "Save Changes" },
-  "unmock": { "message": "Unmock" }
+  "unmock": { "message": "Unmock" },
+
+  "css": { "message": "CSS" },
+  "javascript": { "message": "JavaScript" }
 }
