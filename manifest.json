@@ -1,6 +1,7 @@
 {
 
-  "name": "switch",
+  "name": "Genius Switch",
+  "description": "A tool for editing JS & CSS resources",
 
   "version": "0.0.1",
 
