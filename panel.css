@@ -12,8 +12,9 @@ body, html {
 
 .selected-request-url {
   white-space: nowrap;
-  overflow: ellipsis;
+  overflow: hidden;
   display: block;
+  text-overflow: ellipsis;
 }
 
 .editor {
@@ -69,6 +70,7 @@ body, html {
 
 .pull-right {
   float: right;
+  margin-left: 20px;
 }
 
 .mocked { color: blue; }
