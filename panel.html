@@ -24,9 +24,9 @@
   <div ng-if="selectedResource" class="content">
     <div class="menu">
       <div class="pull-right">
-        <button ng-click="beautifySelected()" class="btn" ng-if="is_beautifiable()">Clean</button>
-        <button ng-click="saveSelectedResource()" class="btn">Save Changes</button>
-        <button ng-click="unmockSelected()" class="btn" ng-if="selectedResource.mocked">Unmock</button>
+        <button ng-click="beautifySelected()" class="btn" ng-if="is_beautifiable()">{{ ('cleanup_' + selectedResource.mode) | i18n }}</button>
+        <button ng-click="saveSelectedResource()" class="btn">{{ 'save' | i18n }}</button>
+        <button ng-click="unmockSelected()" class="btn" ng-if="selectedResource.mocked">{{ 'unmock' | i18n }}</button>
       </div>
       <a ng-click="cancelSaving()" class="back">&lt;</a>
       {{ selectedResource.request.url }}

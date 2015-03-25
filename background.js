@@ -23,7 +23,7 @@ chrome.webRequest.onBeforeRequest.addListener(function (details) {
   var code = mocks[details.url];
   if (code) {
     return {
-      redirectUrl: 'data:text/javascript;base64,' + btoa(code) // TODO configurable mime type for CSS
+      redirectUrl: 'data:text/genius;base64,' + btoa(code)
     };
   }
 }, {

@@ -6,6 +6,8 @@
 
   "manifest_version": 2,
 
+  "default_locale": "en",
+
   "devtools_page": "devtools.html",
 
   "background": {

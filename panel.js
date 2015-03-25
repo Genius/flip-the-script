@@ -6,6 +6,14 @@ var background_connection = chrome.extension.connect({
 
 angular.module('switch', ['ui.codemirror']);
 
+angular.module('switch').filter('i18n', function () {
+
+  return function (input) {
+    return chrome.i18n.getMessage(input);
+  };
+
+});
+
 angular.module('switch').controller('PanelCtrl', ['$scope', function ($scope) {
 
   var mode_map = {
