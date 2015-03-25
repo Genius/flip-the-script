@@ -20,9 +20,9 @@
   <div ng-if="selectedResource" class="content">
     <div class="menu">
       <div class="pull-right">
+        <button ng-click="unmockSelected()" class="btn btn-danger" ng-if="selectedResource.mocked">{{ 'unmock' | i18n }}</button>
         <button ng-click="beautifySelected()" class="btn" ng-if="is_beautifiable()">{{ ('cleanup_' + selectedResource.mode) | i18n }}</button>
         <button ng-click="saveSelectedResource()" class="btn">{{ 'save' | i18n }}</button>
-        <button ng-click="unmockSelected()" class="btn" ng-if="selectedResource.mocked">{{ 'unmock' | i18n }}</button>
       </div>
 
       <div class="selected-resource-url">
