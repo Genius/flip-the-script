@@ -30,6 +30,7 @@ angular.module('switch').controller('PanelCtrl', ['$scope', function ($scope) {
   $scope.addResource = function (request) {
     var underlying_request = request.mockedResource || request;
     request.mode = mode_map[underlying_request.response.content.mimeType];
+    request.mime = underlying_request.response.content.mimeType;
     if (request.mode) {
       $scope.resources.push(request);
     }
@@ -90,7 +91,10 @@ angular.module('switch').controller('PanelCtrl', ['$scope', function ($scope) {
     background_connection.postMessage({
       method: 'register',
       url: $scope.selectedResource.request.url,
-      content: $scope.editor.body
+      detail: {
+        code: $scope.editor.body,
+        mime: $scope.selectedResource.mime
+      }
     });
     $scope.cancelSaving();
   };

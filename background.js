@@ -1,12 +1,12 @@
-var mocks = {}; // TODO move to storage?
+var mocks = localStorage;
 
 
 chrome.runtime.onConnect.addListener(function (dev_tools_connection) {
   var listener = function (message) {
     if (message.method === 'register') {
-      mocks[message.url] = message.content;
+      mocks[message.url] = JSON.stringify(message.detail);
     } else if (message.method === 'release') {
-      delete mocks[message.url];
+      mocks.removeItem(message.url);
     }
   };
 
@@ -20,10 +20,11 @@ chrome.runtime.onConnect.addListener(function (dev_tools_connection) {
 
 
 chrome.webRequest.onBeforeRequest.addListener(function (details) {
-  var code = mocks[details.url];
-  if (code) {
+  var detailJSON = mocks[details.url];
+  if (detailJSON) {
+    var detail = JSON.parse(detailJSON);
     return {
-      redirectUrl: 'data:text/javascript;base64,' + btoa(code) // TODO
+      redirectUrl: 'data:' + detail.mime + ';base64,' + btoa(detail.code)
     };
   }
 }, {

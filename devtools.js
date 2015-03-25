@@ -1,24 +1,35 @@
 chrome.devtools.panels.create('Switch', null, 'panel.html', function (panel) {
 
   var panelWindow;
-  var previousResource;
+  var awaiting = {};
 
   var external = {
   };
 
   var onRequestFinishedHandler = function (request) {
+    // If we receive a data-uri we're waiting for, assign it to it's
+    // corresponding request, and then add that underlying request
     if (request.request.url.indexOf('data:') === 0) {
-      previousResource.mocked = true;
-      previousResource.mockedResource = request;
-      panelWindow.external.addResource(previousResource);
+      var aw = awaiting[request.request.url];
+      if (aw) {
+        aw.mockedResource = request; // the data resource
+        aw.mocked = true;
+        panelWindow.external.addResource(aw);
+        delete awaiting[request.request.url];
+        return;
+      }
+    }
+
+    // If we receive a redirect to a data-uri, add it to the awaiting table
+    if (request.response.redirectURL.indexOf('data:') === 0) {
+      awaiting[request.response.redirectURL] = request;
     } else {
+    // If we receive a normal request, add it
       panelWindow.external.addResource(request);
     }
-    previousResource = request;
   };
 
   var onNavigatedHandler = function () {
-    previousResource = undefined;
     panelWindow.external.resetResources();
   };
 
