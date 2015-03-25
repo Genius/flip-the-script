@@ -20,7 +20,8 @@
     "webRequest",
     "webRequestBlocking",
     "https://*/**",
-    "http://*/**"
+    "http://*/**",
+    "storage"
   ]
 
 }
