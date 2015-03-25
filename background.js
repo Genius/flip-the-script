@@ -1,4 +1,4 @@
-var mocks = {}; // TODO move to storage
+var mocks = {}; // TODO move to storage?
 
 
 chrome.runtime.onConnect.addListener(function (dev_tools_connection) {
@@ -23,7 +23,7 @@ chrome.webRequest.onBeforeRequest.addListener(function (details) {
   var code = mocks[details.url];
   if (code) {
     return {
-      redirectUrl: 'data:text/genius;base64,' + btoa(code)
+      redirectUrl: 'data:text/javascript;base64,' + btoa(code) // TODO
     };
   }
 }, {

@@ -11,15 +11,11 @@
 
 <div ng-app="switch" ng-controller="PanelCtrl">
 
-  <table ng-if="!selectedResource" ng-repeat="resource in resources" class="table">
-    <tr>
-      <td>
-        <a ng-click="selectResource(resource)" ng-class="{mocked:resource.mocked}">
-          {{ resource.request.url }}
-        </a>
-      </td>
-    </tr>
-  </table>
+  <div ng-if="!selectedResource" ng-repeat="resource in resources" class="table">
+    <div class="mocked-resource" ng-click="selectResource(resource)" ng-class="{mocked:resource.mocked}">
+      {{ resource.request.url }}
+    </div>
+  </div>
 
   <div ng-if="selectedResource" class="content">
     <div class="menu">
@@ -28,8 +24,11 @@
         <button ng-click="saveSelectedResource()" class="btn">{{ 'save' | i18n }}</button>
         <button ng-click="unmockSelected()" class="btn" ng-if="selectedResource.mocked">{{ 'unmock' | i18n }}</button>
       </div>
-      <a ng-click="cancelSaving()" class="back">&lt;</a>
-      {{ selectedResource.request.url }}
+
+      <div class="selected-resource-url">
+        <a ng-click="cancelSaving()" class="back">&lt;</a>
+        {{ selectedResource.request.url }}
+      </div>
     </div>
     <ui-codemirror ng-model="editor.body" ui-codemirror-opts="editorOptions()" class="editor"></ui-codemirror>
   </div>

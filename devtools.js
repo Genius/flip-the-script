@@ -7,7 +7,7 @@ chrome.devtools.panels.create('Switch', null, 'panel.html', function (panel) {
   };
 
   var onRequestFinishedHandler = function (request) {
-    if (request.request.url.indexOf('data:text/genius') === 0) {
+    if (request.request.url.indexOf('data:') === 0) {
       previousResource.mocked = true;
       previousResource.mockedResource = request;
       panelWindow.external.addResource(previousResource);
