@@ -11,6 +11,12 @@
 
 <div ng-app="switch" ng-controller="PanelCtrl">
 
+  <div ng-if="!selectedResource && !resources.length" class="disclaimer">
+    <h1>Welcome to genius-switch</h1>
+
+    You may need to reload the page for your requests to appear here.
+  </div>
+
   <div ng-if="!selectedResource" ng-repeat="resource in resources" class="table">
     <div class="mocked-resource" ng-click="selectResource(resource)" ng-class="{mocked:resource.mocked}">
       {{ resource.request.url }}
