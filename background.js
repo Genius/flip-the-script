@@ -1,13 +1,13 @@
-var mocks = localStorage;
+var overrides = localStorage;
 
 var disabled;
 
 chrome.runtime.onConnect.addListener(function (dev_tools_connection) {
   var listener = function (message, _, reply) {
     if (message.method === 'register') {
-      mocks[message.url] = JSON.stringify(message.detail);
+      overrides[message.url] = JSON.stringify(message.detail);
     } else if (message.method === 'release') {
-      mocks.removeItem(message.url);
+      overrides.removeItem(message.url);
     } else if (message.method === 'setDisabled') {
       disabled = message.value;
       chrome.storage.local.set({ disabled: message.value });
@@ -33,7 +33,7 @@ chrome.runtime.onConnect.addListener(function (dev_tools_connection) {
 chrome.webRequest.onBeforeRequest.addListener(function (details) {
   if (disabled) { return; }
 
-  var detailJSON = mocks[details.url];
+  var detailJSON = overrides[details.url];
   if (detailJSON) {
     var detail = JSON.parse(detailJSON);
     return {

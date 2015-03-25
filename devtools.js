@@ -12,8 +12,8 @@ chrome.devtools.panels.create('Switch', null, 'panel.html', function (panel) {
     if (request.request.url.indexOf('data:') === 0) {
       var aw = awaiting[request.request.url];
       if (aw) {
-        aw.mockedRequest = request; // the data request
-        aw.mocked = true;
+        aw.overriddenRequest = request; // the data request
+        aw.overridden = true;
         panelWindow.external.addRequest(aw);
         delete awaiting[request.request.url];
         return;

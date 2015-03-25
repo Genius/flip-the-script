@@ -25,7 +25,7 @@
       </div>
 
       <div class="disclaimer editor">
-        <strong>Mocking is currently disabled.</strong>
+        <strong>Request Overriding is currently disabled.</strong>
         <br/><br/>
 
         <div ng-if="!just_opened">
@@ -60,7 +60,7 @@
     <div ng-if="!selectedRequest && !just_opened" class="content">
       <div class="menu">
         <div class="pull-right">
-          <button ng-click="unmockAll()" class="btn btn-danger" ng-if="mockedCount()">{{ 'unmock' | i18n }} {{ mockedCount() }}</button>
+          <button ng-click="disableAllOverrides()" class="btn btn-danger" ng-if="overriddenCount()">{{ 'disable_override' | i18n }} {{ overriddenCount() }}</button>
           <button ng-click="toggleDisabled(true)" class="btn btn-danger" ng-if="!disabled">{{ 'disable' | i18n }}</button>
         </div>
 
@@ -71,14 +71,14 @@
 
       <div class="editor">
         <div ng-if="!selectedRequest" ng-repeat="(mode, mode_requests) in requests" class="content">
-          <div class="mocked-request-header">{{ mode | i18n }}</div>
+          <div class="overridden-request-header">{{ mode | i18n }}</div>
           <div ng-repeat="request in mode_requests | filter:{request:{url:searchTerm}}">
-            <div class="mocked-request" ng-click="selectRequest(request)" ng-class="{mocked:request.mocked}">
+            <div class="overridden-request" ng-click="selectRequest(request)" ng-class="{overridden:request.overridden}">
               {{ request.request.url }}
             </div>
           </div>
           <div ng-if="!(mode_requests | filter:{request:{url: searchTerm}}).length">
-            <div class="mocked-request">
+            <div class="overridden-request">
               <em>No {{ mode | i18n }} Results.</em>
             </div>
           </div>
@@ -89,7 +89,7 @@
     <div ng-if="selectedRequest" class="content">
       <div class="menu">
         <div class="pull-right">
-          <button ng-click="unmock(selectedRequest)" class="btn btn-danger" ng-if="selectedRequest.mocked">{{ 'unmock' | i18n }}</button>
+          <button ng-click="disable_override(selectedRequest)" class="btn btn-danger" ng-if="selectedRequest.overridden">{{ 'disable_override' | i18n }}</button>
           <button ng-click="beautifySelected()" class="btn" ng-if="is_beautifiable()">{{ 'cleanup' | i18n }} {{ selectedRequest.mode | i18n }}</button>
           <button ng-click="saveSelectedRequest()" class="btn btn-success">{{ 'save' | i18n }}</button>
           <button ng-click="saveSelectedRequest();refreshPage()" class="btn btn-success">{{ 'save_and_refresh' | i18n }}</button>

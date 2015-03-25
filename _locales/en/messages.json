@@ -2,9 +2,9 @@
   "cleanup": { "message": "Cleanup" },
   "save": { "message": "Save" },
   "save_and_refresh": { "message": "Save & Refresh" },
-  "unmock": { "message": "Unmock" },
-  "enable": { "message": "Enable Mocking" },
-  "disable": { "message": "Disable Mocking" },
+  "disable_override": { "message": "Disable Override" },
+  "enable": { "message": "Enable" },
+  "disable": { "message": "Disable" },
 
   "css": { "message": "CSS" },
   "javascript": { "message": "JavaScript" }

@@ -75,9 +75,9 @@ body, html {
   margin-left: 20px;
 }
 
-.mocked { color: blue; }
+.overridden { color: blue; }
 
-.mocked-request {
+.overridden-request {
   padding: 5px 20px;
   border-bottom: 1px solid #777;
   color: #555;
@@ -87,18 +87,18 @@ body, html {
   cursor: default;
 }
 
-.mocked-request-header {
+.overridden-request-header {
   padding: 10px 20px;
   color: #fff;
   background: #03a9f4;
 }
 
-.mocked-request.mocked {
+.overridden-request.overridden {
   font-weight: bold;
   color: #000;
 }
 
-.mocked-request:hover {
+.overridden-request:hover {
   background: #eee;
 }
 

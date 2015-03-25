@@ -48,11 +48,11 @@ angular.module('switch').controller('PanelCtrl', ['$scope', function ($scope) {
     });
   };
 
-  $scope.unmock = function (request) {
-    request.mocked = false;
+  $scope.disable_override = function (request) {
+    request.overridden = false;
     delete request.body;
 
-    if (request.mockedRequest) {
+    if (request.overriddenRequest) {
       request.body = '/* Refresh the page for the original blocked response. */';
     }
 
@@ -62,11 +62,11 @@ angular.module('switch').controller('PanelCtrl', ['$scope', function ($scope) {
     });
   };
 
-  $scope.mockedCount = function () {
+  $scope.overriddenCount = function () {
     var count = 0;
     for (var mode in $scope.requests) {
       for (var i = 0; i < $scope.requests[mode].length; i++) {
-        if ($scope.requests[mode][i].mocked) {
+        if ($scope.requests[mode][i].overridden) {
           count += 1;
         }
       }
@@ -74,11 +74,11 @@ angular.module('switch').controller('PanelCtrl', ['$scope', function ($scope) {
     return count;
   };
 
-  $scope.unmockAll = function () {
+  $scope.disableAllOverrides = function () {
     for (var mode in $scope.requests) {
       for (var i = 0; i < $scope.requests[mode].length; i++) {
-        if ($scope.requests[mode][i].mocked) {
-          $scope.unmock($scope.requests[mode][i]);
+        if ($scope.requests[mode][i].overridden) {
+          $scope.disable_override($scope.requests[mode][i]);
         }
       }
     }
@@ -86,7 +86,7 @@ angular.module('switch').controller('PanelCtrl', ['$scope', function ($scope) {
 
   $scope.addRequest = function (request) {
     if ($scope.disabled) { return; }
-    var underlying_request = request.mockedRequest || request;
+    var underlying_request = request.overriddenRequest || request;
     request.mode = mode_map[underlying_request.response.content.mimeType];
     request.mime = underlying_request.response.content.mimeType;
     if (request.mode) {
@@ -109,7 +109,7 @@ angular.module('switch').controller('PanelCtrl', ['$scope', function ($scope) {
     if ($scope.selectedRequest.body) {
       $scope.editor.body = $scope.selectedRequest.body;
     } else {
-      (request.mockedRequest || request).getContent(function (content) {
+      (request.overriddenRequest || request).getContent(function (content) {
         $scope.editor.body = content;
         $scope.$apply();
       });
@@ -134,7 +134,7 @@ angular.module('switch').controller('PanelCtrl', ['$scope', function ($scope) {
   };
 
   $scope.saveSelectedRequest = function () {
-    $scope.selectedRequest.mocked = true;
+    $scope.selectedRequest.overridden = true;
     $scope.selectedRequest.body = $scope.editor.body;
     background_connection.postMessage({
       method: 'register',
