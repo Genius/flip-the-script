@@ -32,6 +32,10 @@ angular.module('switch').controller('PanelCtrl', ['$scope', function ($scope) {
     }
   });
 
+  $scope.setSearchTerm = function (term) {
+    $scope.searchTerm = term;
+  };
+
   $scope.toggleDisabled = function (value) {
     $scope.disabled = value;
     $scope.just_opened = true;
@@ -150,7 +154,7 @@ angular.module('switch').controller('PanelCtrl', ['$scope', function ($scope) {
 
   // export a few methods in a convenient way
   window.external = {};
-  ['addRequest', 'resetRequests'].forEach(function (name) {
+  ['addRequest', 'resetRequests', 'setSearchTerm'].forEach(function (name) {
     window.external[name] = function () {
       var args = Array.prototype.slice.call(arguments);
       $scope.$apply(function () {

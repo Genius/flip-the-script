@@ -68,9 +68,14 @@
       <div class="editor">
         <div ng-if="!selectedRequest" ng-repeat="(mode, mode_requests) in requests" class="content">
           <div class="mocked-request-header">{{ mode | i18n }}</div>
-          <div ng-repeat="request in mode_requests">
+          <div ng-repeat="request in mode_requests | filter:{request:{url:searchTerm}}">
             <div class="mocked-request" ng-click="selectRequest(request)" ng-class="{mocked:request.mocked}">
               {{ request.request.url }}
+            </div>
+          </div>
+          <div ng-if="!(mode_requests | filter:{request:{url: searchTerm}}).length">
+            <div class="mocked-request">
+              <em>No {{ mode | i18n }} Results.</em>
             </div>
           </div>
         </div>

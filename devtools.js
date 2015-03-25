@@ -33,6 +33,14 @@ chrome.devtools.panels.create('Switch', null, 'panel.html', function (panel) {
     panelWindow.external.resetRequests();
   };
 
+  panel.onSearch.addListener(function (action, queryString) {
+    if (action === 'performSearch') {
+      panelWindow.external.setSearchTerm(queryString);
+    } else if (action === 'cancelSearch') {
+      panelWindow.external.setSearchTerm('');
+    }
+  });
+
   panel.onShown.addListener(function (pw) {
     panelWindow = pw;
     panelWindow.tool = external;
