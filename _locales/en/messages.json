@@ -6,6 +6,7 @@
   "disable_overrides": { "message": "Disable Overrides" },
   "enable": { "message": "Enable" },
   "disable": { "message": "Disable" },
+  "refresh": { "message": "Refresh Page" },
 
   "css": { "message": "CSS" },
   "javascript": { "message": "JavaScript" }

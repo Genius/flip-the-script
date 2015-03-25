@@ -34,6 +34,7 @@ angular.module('switch').controller('PanelCtrl', ['$scope', function($scope) {
 
   $scope.refresh_page = function() {
     chrome.devtools.inspectedWindow.reload();
+    $scope.needs_refresh = false;
   };
 
   $scope.set_search_term = function(term) {
@@ -51,6 +52,8 @@ angular.module('switch').controller('PanelCtrl', ['$scope', function($scope) {
   $scope.disable_override = function(request) {
     request.overridden = false;
     delete request.body;
+
+    $scope.needs_refresh = true;
 
     if (request.overridden_request) {
       request.body = '/* Refresh the page for the original blocked response. */';
@@ -136,6 +139,7 @@ angular.module('switch').controller('PanelCtrl', ['$scope', function($scope) {
   $scope.save_selected_request = function() {
     $scope.selected_request.overridden = true;
     $scope.selected_request.body = $scope.editor.body;
+    $scope.needs_refresh = true;
     background_connection.postMessage({
       method: 'register',
       url: $scope.selected_request.request.url,
@@ -155,6 +159,7 @@ angular.module('switch').controller('PanelCtrl', ['$scope', function($scope) {
     };
   };
 
+  $scope.needs_refresh = false;
   $scope.just_opened = true;
   $scope.editor = {};
   $scope.reset_requests();

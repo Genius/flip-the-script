@@ -60,6 +60,7 @@
     <div ng-if="!selected_request && !just_opened" class="content">
       <div class="menu">
         <div class="pull-right">
+          <button ng-click="refresh_page()" class="btn" ng-if="needs_refresh || just_opened">{{ 'refresh' | i18n }}</button>
           <button ng-click="disable_all_overrides()" class="btn btn-danger" ng-if="overriden_count()">{{ 'disable_overrides' | i18n }} ({{ overriden_count() }})</button>
           <button ng-click="toggle_disabled(true)" class="btn btn-danger" ng-if="!disabled">{{ 'disable' | i18n }}</button>
         </div>
