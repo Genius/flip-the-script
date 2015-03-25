@@ -10,7 +10,7 @@ body, html {
   height: auto;
 }
 
-.selected-resource-url {
+.selected-request-url {
   white-space: nowrap;
   overflow: ellipsis;
   display: block;
@@ -72,7 +72,7 @@ body, html {
 
 .mocked { color: blue; }
 
-.mocked-resource {
+.mocked-request {
   padding: 5px 10px;
   border-bottom: 1px solid #777;
   color: #555;
@@ -81,12 +81,12 @@ body, html {
   cursor: default;
 }
 
-.mocked-resource.mocked {
+.mocked-request.mocked {
   font-weight: bold;
   color: #000;
 }
 
-.mocked-resource:hover {
+.mocked-request:hover {
   background: #eee;
 }
 

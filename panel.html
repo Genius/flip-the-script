@@ -11,29 +11,29 @@
 
 <div ng-app="switch" ng-controller="PanelCtrl">
 
-  <div ng-if="!selectedResource && !resources.length" class="disclaimer">
+  <div ng-if="!selectedRequest && !requests.length" class="disclaimer">
     <h1>Welcome to genius-switch</h1>
 
     You may need to reload the page for your requests to appear here.
   </div>
 
-  <div ng-if="!selectedResource" ng-repeat="resource in resources" class="table">
-    <div class="mocked-resource" ng-click="selectResource(resource)" ng-class="{mocked:resource.mocked}">
-      {{ resource.request.url }}
+  <div ng-if="!selectedRequest" ng-repeat="request in requests" class="table">
+    <div class="mocked-request" ng-click="selectRequest(request)" ng-class="{mocked:request.mocked}">
+      {{ request.request.url }}
     </div>
   </div>
 
-  <div ng-if="selectedResource" class="content">
+  <div ng-if="selectedRequest" class="content">
     <div class="menu">
       <div class="pull-right">
-        <button ng-click="unmockSelected()" class="btn btn-danger" ng-if="selectedResource.mocked">{{ 'unmock' | i18n }}</button>
-        <button ng-click="beautifySelected()" class="btn" ng-if="is_beautifiable()">{{ ('cleanup_' + selectedResource.mode) | i18n }}</button>
-        <button ng-click="saveSelectedResource()" class="btn">{{ 'save' | i18n }}</button>
+        <button ng-click="unmockSelected()" class="btn btn-danger" ng-if="selectedRequest.mocked">{{ 'unmock' | i18n }}</button>
+        <button ng-click="beautifySelected()" class="btn" ng-if="is_beautifiable()">{{ ('cleanup_' + selectedRequest.mode) | i18n }}</button>
+        <button ng-click="saveSelectedRequest()" class="btn">{{ 'save' | i18n }}</button>
       </div>
 
-      <div class="selected-resource-url">
+      <div class="selected-request-url">
         <a ng-click="cancelSaving()" class="back">X</a>
-        {{ selectedResource.request.url }}
+        {{ selectedRequest.request.url }}
       </div>
     </div>
     <ui-codemirror ng-model="editor.body" ui-codemirror-opts="editorOptions()" class="editor"></ui-codemirror>

@@ -12,9 +12,9 @@ chrome.devtools.panels.create('Switch', null, 'panel.html', function (panel) {
     if (request.request.url.indexOf('data:') === 0) {
       var aw = awaiting[request.request.url];
       if (aw) {
-        aw.mockedResource = request; // the data resource
+        aw.mockedRequest = request; // the data request
         aw.mocked = true;
-        panelWindow.external.addResource(aw);
+        panelWindow.external.addRequest(aw);
         delete awaiting[request.request.url];
         return;
       }
@@ -25,12 +25,12 @@ chrome.devtools.panels.create('Switch', null, 'panel.html', function (panel) {
       awaiting[request.response.redirectURL] = request;
     } else {
     // If we receive a normal request, add it
-      panelWindow.external.addResource(request);
+      panelWindow.external.addRequest(request);
     }
   };
 
   var onNavigatedHandler = function () {
-    panelWindow.external.resetResources();
+    panelWindow.external.resetRequests();
   };
 
   panel.onShown.addListener(function (pw) {

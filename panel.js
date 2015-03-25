@@ -25,28 +25,28 @@ angular.module('switch').controller('PanelCtrl', ['$scope', function ($scope) {
   };
 
   $scope.editor = {};
-  $scope.resources = [];
+  $scope.requests = [];
 
-  $scope.addResource = function (request) {
-    var underlying_request = request.mockedResource || request;
+  $scope.addRequest = function (request) {
+    var underlying_request = request.mockedRequest || request;
     request.mode = mode_map[underlying_request.response.content.mimeType];
     request.mime = underlying_request.response.content.mimeType;
     if (request.mode) {
-      $scope.resources.push(request);
+      $scope.requests.push(request);
     }
   };
 
-  $scope.resetResources = function () {
+  $scope.resetRequests = function () {
     $scope.cancelSaving();
-    $scope.resources = [];
+    $scope.requests = [];
   };
 
-  $scope.selectResource = function (resource) {
-    $scope.selectedResource = resource;
-    if ($scope.selectedResource.body) {
-      $scope.editor.body = $scope.selectedResource.body;
+  $scope.selectRequest = function (request) {
+    $scope.selectedRequest = request;
+    if ($scope.selectedRequest.body) {
+      $scope.editor.body = $scope.selectedRequest.body;
     } else {
-      (resource.mockedResource || resource).getContent(function (content) {
+      (request.mockedRequest || request).getContent(function (content) {
         $scope.editor.body = content;
         $scope.$apply();
       });
@@ -54,27 +54,27 @@ angular.module('switch').controller('PanelCtrl', ['$scope', function ($scope) {
   };
 
   $scope.unmockSelected = function () {
-    $scope.selectedResource.mocked = false;
-    delete $scope.selectedResource.body;
+    $scope.selectedRequest.mocked = false;
+    delete $scope.selectedRequest.body;
 
-    if ($scope.selectedResource.mockedResource) {
-      $scope.selectedResource.body = '/* Refresh the page for the original blocked response. */';
+    if ($scope.selectedRequest.mockedRequest) {
+      $scope.selectedRequest.body = '/* Refresh the page for the original blocked response. */';
     }
 
     background_connection.postMessage({
       method: 'release',
-      url: $scope.selectedResource.request.url
+      url: $scope.selectedRequest.request.url
     });
     $scope.cancelSaving();
   };
 
   $scope.is_beautifiable = function () {
-    return ['css', 'javascript'].indexOf($scope.selectedResource.mode) !== -1;
+    return ['css', 'javascript'].indexOf($scope.selectedRequest.mode) !== -1;
   };
 
   $scope.beautifySelected = function () {
     var editor = $scope.editor;
-    switch($scope.selectedResource.mode) {
+    switch($scope.selectedRequest.mode) {
       case 'javascript': editor.body = js_beautify(editor.body); break;
       case 'css':        editor.body = css_beautify(editor.body); break;
     }
@@ -82,18 +82,18 @@ angular.module('switch').controller('PanelCtrl', ['$scope', function ($scope) {
 
   $scope.cancelSaving = function () {
     $scope.editor = {};
-    $scope.selectedResource = undefined;
+    $scope.selectedRequest = undefined;
   };
 
-  $scope.saveSelectedResource = function () {
-    $scope.selectedResource.mocked = true;
-    $scope.selectedResource.body = $scope.editor.body;
+  $scope.saveSelectedRequest = function () {
+    $scope.selectedRequest.mocked = true;
+    $scope.selectedRequest.body = $scope.editor.body;
     background_connection.postMessage({
       method: 'register',
-      url: $scope.selectedResource.request.url,
+      url: $scope.selectedRequest.request.url,
       detail: {
         code: $scope.editor.body,
-        mime: $scope.selectedResource.mime
+        mime: $scope.selectedRequest.mime
       }
     });
     $scope.cancelSaving();
@@ -101,17 +101,17 @@ angular.module('switch').controller('PanelCtrl', ['$scope', function ($scope) {
 
   $scope.editorOptions = function () {
     return {
-      mode: $scope.selectedResource ? $scope.selectedResource.mode : undefined,
+      mode: $scope.selectedRequest ? $scope.selectedRequest.mode : undefined,
       lineNumbers: true,
       styleActiveLine: true
     };
   };
 
-  $scope.resetResources();
+  $scope.resetRequests();
 
   // export a few methods in a convenient way
   window.external = {};
-  ['addResource', 'resetResources'].forEach(function (name) {
+  ['addRequest', 'resetRequests'].forEach(function (name) {
     window.external[name] = function () {
       var args = Array.prototype.slice.call(arguments);
       $scope.$apply(function () {
