@@ -38,7 +38,6 @@ angular.module('switch').controller('PanelCtrl', ['$scope', function ($scope) {
 
   $scope.toggleDisabled = function (value) {
     $scope.disabled = value;
-    $scope.just_opened = true;
     background_connection.postMessage({
       method: 'setDisabled',
       value: value
@@ -82,6 +81,7 @@ angular.module('switch').controller('PanelCtrl', ['$scope', function ($scope) {
   };
 
   $scope.addRequest = function (request) {
+    if ($scope.disabled) { return; }
     var underlying_request = request.mockedRequest || request;
     request.mode = mode_map[underlying_request.response.content.mimeType];
     request.mime = underlying_request.response.content.mimeType;
@@ -95,6 +95,9 @@ angular.module('switch').controller('PanelCtrl', ['$scope', function ($scope) {
   $scope.resetRequests = function () {
     $scope.cancelSaving();
     $scope.requests = {};
+    if ($scope.disabled) {
+      $scope.just_opened = true;
+    }
   };
 
   $scope.selectRequest = function (request) {
