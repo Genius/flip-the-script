@@ -24,6 +24,23 @@ angular.module('switch').controller('PanelCtrl', ['$scope', function ($scope) {
     'text/css': 'css'
   };
 
+  $scope.disabled = false;
+  background_connection.onMessage.addListener(function (message) {
+    if (message.method === 'updateSettings') {
+      $scope.disabled = message.value.disabled;
+      $scope.$apply();
+    }
+  });
+
+  $scope.toggleDisabled = function (value) {
+    $scope.disabled = value;
+    $scope.just_opened = true;
+    background_connection.postMessage({
+      method: 'setDisabled',
+      value: value
+    });
+  };
+
   $scope.unmock = function (request) {
     request.mocked = false;
     delete request.body;
@@ -61,11 +78,11 @@ angular.module('switch').controller('PanelCtrl', ['$scope', function ($scope) {
   };
 
   $scope.addRequest = function (request) {
-    $scope.just_opened = false;
     var underlying_request = request.mockedRequest || request;
     request.mode = mode_map[underlying_request.response.content.mimeType];
     request.mime = underlying_request.response.content.mimeType;
     if (request.mode) {
+      $scope.just_opened = false;
       $scope.requests[request.mode] = $scope.requests[request.mode] || [];
       $scope.requests[request.mode].push(request);
     }
