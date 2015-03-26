@@ -1,4 +1,4 @@
-chrome.devtools.panels.create('Switch', null, 'panel.html', function(panel) {
+chrome.devtools.panels.create('Flip the Script', null, 'panel.html', function(panel) {
   var panel_window;
   var awaiting = {};
 
