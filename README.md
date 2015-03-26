@@ -1,6 +1,6 @@
 # Flip the Script!
 
-(Get the extension here!)[https://chrome.google.com/webstore/detail/flip-the-script/bmkpjhjogcjpioeffjmdgclmeiiofcjp]
+[Get the extension here!](https://chrome.google.com/webstore/detail/flip-the-script/bmkpjhjogcjpioeffjmdgclmeiiofcjp)
 
 ## Developing
 
